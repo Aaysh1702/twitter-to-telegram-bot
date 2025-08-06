@@ -15,19 +15,19 @@ user_data = {} pending_payments = {} admin_id = "@aaysh_912" upi_id = "education
 
 Start command
 
-def get_main_menu(): return InlineKeyboardMarkup([ [ InlineKeyboardButton("🔘 Stay on Free Plan", callback_data="stay_free"), InlineKeyboardButton("💎 Upgrade to Premium", callback_data="upgrade_premium") ] ])
+def get_main_menu(): return InlineKeyboardMarkup([ [ InlineKeyboardButton("Stay on Free Plan", callback_data="stay_free"), InlineKeyboardButton("💎 Upgrade to Premium", callback_data="upgrade_premium") ] ])
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE): user = update.effective_user user_id = user.id first_name = user.first_name
 
 if user_id in user_data:
-    await update.message.reply_text(f"👋 Welcome back, {first_name}! What would you like to do today?")
+    await update.message.reply_text(f"Welcome back, {first_name}! What would you like to do today?")
 else:
     user_data[user_id] = {
         "is_premium": False,
         "tracked_ids": []
     }
     await update.message.reply_text(
-        f"👋 Hi {first_name}! This bot tracks tweets and sends them here.\n\nYou can track 1 X (Twitter) ID for free.",
+        f" Hi {first_name}! This bot tracks tweets and sends them here.\n\nYou can track 1 X (Twitter) ID for free.",
         reply_markup=get_main_menu()
     )
 
@@ -36,13 +36,13 @@ Handle callback queries (button clicks)
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE): query = update.callback_query await query.answer() user_id = query.from_user.id
 
 if query.data == "stay_free":
-    await query.edit_message_text("✅ You are on the Free Plan. Tracking 1 ID only. You can upgrade anytime by typing /upgrade.")
+    await query.edit_message_text("You are on the Free Plan. Tracking 1 ID only. You can upgrade anytime by typing /upgrade.")
 
 elif query.data == "upgrade_premium":
     pending_payments[user_id] = True
     await query.edit_message_text(
-        f"💎 Great choice!\n\nSend ₹{premium_price} to UPI ID: {upi_id}\n\nThen, *reply here with the payment screenshot* (exact image only)."
-        f"\n\n⏳ Please wait while our admin checks it manually. You'll be upgraded soon.\n\nThanks for supporting us! 😊",
+        f"Great choice!\n\nSend ₹{premium_price} to UPI ID: {upi_id}\n\nThen, *reply here with the payment screenshot* (exact image only)."
+        f"\n\n Please wait while our admin checks it manually. You'll be upgraded soon.\n\nThanks for supporting us! ",
         parse_mode="Markdown"
     )
 
@@ -53,14 +53,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE): us
 if user_id in pending_payments:
     # Forward screenshot and user info to admin
     if update.message.photo:
-        caption = f"🆕 Payment Screenshot\nFrom: @{user.username or user.first_name}\nUser ID: {user_id}\nName: {user.full_name}"
+        caption = f"Payment Screenshot\nFrom: @{user.username or user.first_name}\nUser ID: {user_id}\nName: {user.full_name}"
         photo_file = update.message.photo[-1].file_id
         await context.bot.send_photo(chat_id=admin_id, photo=photo_file, caption=caption)
-        await update.message.reply_text("✅ Screenshot received. Our admin will verify and activate Premium shortly. Please wait. 🙏")
+        await update.message.reply_text("Screenshot received. Our admin will verify and activate Premium shortly. Please wait... ")
     else:
-        await update.message.reply_text("❌ Please send only the *payment screenshot*. Don’t send text or anything else.", parse_mode="Markdown")
+        await update.message.reply_text("Please send only the *payment screenshot*. Don’t send text or anything else.", parse_mode="Markdown")
 else:
-    await update.message.reply_text("ℹ️ Please use /start to begin or /upgrade to go premium.")
+    await update.message.reply_text("Please use /start to begin or /upgrade to go premium.")
 
 Upgrade manually by admin
 
@@ -74,5 +74,6 @@ application.add_handler(CallbackQueryHandler(button_handler))
 application.add_handler(CommandHandler("makepremium", make_premium))
 application.add_handler(MessageHandler(filters.ALL, handle_message))
 
-print("✅ Bot is running...")
+print("Bot is running...")
 application.run_polling()
+
