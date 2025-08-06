@@ -37,4 +37,30 @@ A powerful and self-healing Python bot that automatically forwards tweets from s
    ```bash
    git clone https://github.com/Aaysh1702/twitter-telegram-bot.git
    cd twitter-telegram-bot
+Create a Virtual Environment
+
+bash
+Copy
+Edit
+python -m venv venv
+source venv/bin/activate  # For Linux/macOS
+venv\Scripts\activate     # For Windows
+Install Dependencies
+
+bash
+Copy
+Edit
+pip install -r requirements.txt
+Setup Environment Variables
+Create a .env file in the root directory with the following:
+
+env
+Copy
+Edit
+TELEGRAM_BOT_TOKEN=your_telegram_token
+TWITTER_BEARER_TOKEN=your_twitter_api_key
+ADMIN_TELEGRAM_ID=@your_admin_id
+UPI_ID="YourUPIID"
+PREMIUM_PRICE=201
+DATABASE_URL=your_postgres_url  # If using a DB
 
