@@ -35,5 +35,6 @@ A powerful and self-healing Python bot that automatically forwards tweets from s
 
 1. **Clone the Repo**
    ```bash
-   git clone https://github.com/your-username/twitter-telegram-bot.git
+   git clone https://github.com/Aaysh1702/twitter-telegram-bot.git
    cd twitter-telegram-bot
+
